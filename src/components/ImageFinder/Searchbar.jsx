@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 class Searchbar extends Component {
   state = {
     searchName: '',
+    page:1
   }
 
   handlChange = (evt) => {
@@ -22,7 +23,7 @@ class Searchbar extends Component {
         toast.warn("Please, input something!")
         return
     }
-    this.props.onSubmit(this.state.searchName.trim())
+    this.props.onSubmit(this.state.searchName.trim(), this.state.page)
     this.resetForm()
   }
     
@@ -35,8 +36,8 @@ class Searchbar extends Component {
     const {searchName} = this.state
 
     return (
-        <header className='Searchbar' onSubmit={this.handlSubmit}>
-            <form className="SearchForm">
+        <header className='Searchbar'>
+            <form className="SearchForm" onSubmit={this.handlSubmit}>
                 <button type="submit" className="SearchForm-button">
                     <span className="SearchForm-button-label">Search</span>
                 </button>

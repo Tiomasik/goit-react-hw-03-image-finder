@@ -2,10 +2,10 @@
 import ImageGalleryItem from './ImageGalleryItem'
 
 
-const ImageGallery = ({ listSearch }) => (
+const ImageGallery = ({ listSearch, choseItem }) => (
     <ul className='ImageGallery'>
         {listSearch.map(({ id, webformatURL, tags }) =>
-            <li key={id} className='ImageGalleryItem'>
+            <li key={id} onClick={() => choseItem(id)}  className='ImageGalleryItem'>
                 <ImageGalleryItem webformatURL={webformatURL}
                     tags={ tags } />
             </li>)}

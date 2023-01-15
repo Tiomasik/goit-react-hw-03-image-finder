@@ -1,11 +1,11 @@
-// import PropTypes from 'prop-types';
-
+import PropTypes from 'prop-types';
 
 const Button = ({ loadMore }) => (
     <button type="button" onClick={loadMore} className="Button">Load more</button>
 )
-// Searchbar.propTypes = {
-//     onSubmit: PropTypes.func.isRequired,
-// }
+
+Button.propTypes = {
+    loadMore: PropTypes.func.isRequired,
+}
 
 export default Button;

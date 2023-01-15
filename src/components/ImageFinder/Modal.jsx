@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-
-
+import PropTypes from 'prop-types';
 
 class Modal extends Component {
 
@@ -20,7 +19,6 @@ class Modal extends Component {
 
     handlOverlayClick = (evt) => {
         if (evt.target === evt.currentTarget) {
-            console.log('Youhu!!!')
             this.props.onClose()
         }
     }
@@ -31,23 +29,13 @@ class Modal extends Component {
                 <img src={this.props.img.largeImageURL} alt={this.props.img.tags} />
             </div>
         </div>
-    
     }
+}
+
+Modal.propTypes = {
+    img: PropTypes.object.isRequired,
+    onClose: PropTypes.func.isRequired,
 }
 
 export default Modal;
 
-
-
-// const Modal = ({ img }) => (
-//     <div className="Overlay">
-//         <div className="Modal">
-//             <img src={img.largeImageURL} alt={img.tags} />
-//         </div>
-//     </div>
-// )
-// // Searchbar.propTypes = {
-// //     onSubmit: PropTypes.func.isRequired,
-// // }
-
-// export default Modal;

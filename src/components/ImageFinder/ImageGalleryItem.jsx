@@ -1,14 +1,12 @@
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 const ImageGalleryItem = ({ webformatURL, tags }) => (
     <img className="ImageGalleryItem-image" src={ webformatURL } alt={ tags }/>
 )
 
-// ContactItem.propTypes = {
-//     name: PropTypes.string.isRequired,
-//     number: PropTypes.string.isRequired,
-//     id: PropTypes.string.isRequired,
-//     deleteContact: PropTypes.func.isRequired
-// }
+ImageGalleryItem.propTypes = {
+    webformatURL: PropTypes.string.isRequired,
+    tags: PropTypes.string.isRequired,
+}
 
 export default ImageGalleryItem

@@ -1,6 +1,6 @@
-// import PropTypes from 'prop-types';
-import ImageGalleryItem from './ImageGalleryItem'
+import PropTypes from 'prop-types';
 
+import ImageGalleryItem from './ImageGalleryItem'
 
 const ImageGallery = ({ listSearch, choseItem }) => (
     <ul className='ImageGallery'>
@@ -12,16 +12,9 @@ const ImageGallery = ({ listSearch, choseItem }) => (
     </ul>
 )
 
-// ImageGallery.propTypes = {
-//     contacts: PropTypes.arrayOf(
-//         PropTypes.exact({
-//             name: PropTypes.string.isRequired,
-//             id: PropTypes.string.isRequired,
-//             number: PropTypes.string.isRequired,
-//         })
-//     ),
-    
-//     deleteContact: PropTypes.func.isRequired
-// }
+ImageGallery.propTypes = {
+    listSearch: PropTypes.arrayOf(PropTypes.object).isRequired,
+    choseItem: PropTypes.func.isRequired
+}
 
 export default ImageGallery

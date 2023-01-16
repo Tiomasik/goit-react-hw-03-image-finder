@@ -14,7 +14,7 @@ const ImageGallery = ({ listSearch, choseItem }) => (
 
 ImageGallery.propTypes = {
     listSearch: PropTypes.arrayOf(
-        PropTypes.object,
+        PropTypes.object.isRequired,
         PropTypes.exact({
             id: PropTypes.number.isRequired,
             webformatURL: PropTypes.string.isRequired,

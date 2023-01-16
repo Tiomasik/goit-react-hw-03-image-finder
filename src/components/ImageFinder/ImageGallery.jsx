@@ -14,6 +14,7 @@ const ImageGallery = ({ listSearch, choseItem }) => (
 
 ImageGallery.propTypes = {
     listSearch: PropTypes.arrayOf(
+        PropTypes.object,
         PropTypes.exact({
             id: PropTypes.number.isRequired,
             webformatURL: PropTypes.string.isRequired,
@@ -21,7 +22,6 @@ ImageGallery.propTypes = {
         }),
     ),
     choseItem: PropTypes.func.isRequired,
-    listSearch: PropTypes.arrayOf(PropTypes.object).isRequired,
 }
 
 export default ImageGallery

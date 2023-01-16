@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
+import { HiOutlineSearch } from "react-icons/hi";
 
 class Searchbar extends Component {
-  state = {
+  static propTypes =
+    { onSubmit: PropTypes.func.isRequired, }
+  
+    state = {
     searchName: ''
   }
 
@@ -39,7 +43,7 @@ class Searchbar extends Component {
       <header className='Searchbar'>
         <form className="SearchForm" onSubmit={this.handlSubmit}>
           <button type="submit" className="SearchForm-button">
-            <span className="SearchForm-button-label">Search</span>
+            <HiOutlineSearch className='IconSearchButton'/>
           </button>
 
           <input
@@ -55,10 +59,6 @@ class Searchbar extends Component {
       </header>   
     );
   }
-}
-
-Searchbar.propTypes = {
-    onSubmit: PropTypes.func.isRequired,
 }
 
 export default Searchbar;

@@ -16,6 +16,8 @@ class App extends Component {
     status: 'idle',
     page: 1,
     arraySearch: [],
+    openModal: false,
+    openButtonLoadMore: false,
   }
 
   handlFormSubmit = (searchName) => {
@@ -41,38 +43,35 @@ class App extends Component {
   }
   
   componentDidUpdate(prevProps, prevState) {
-    const { page, searchName, arraySearch } = this.state
+    const { page, searchName } = this.state
     const prevSearchName = prevState.searchName
-    if (prevState.page !== page) {
-      this.setState({status: 'pending-more'})
-    }
-    if (prevSearchName !== searchName) {
-        this.setState({ status: 'pending'})
-    }
       
     if (prevSearchName !== searchName || prevState.page !== page) {
-            fetch(`https://pixabay.com/api/?q=${searchName}&page=${page}&key=31299915-b383d5b151d1dc364952a6f73&image_type=photo&orientation=horizontal&per_page=12`)
-              .then(response => response.json())
-              .then(searchInfo => {
-                if (searchInfo.hits.length !== 0 && searchInfo.hits.length === 12) {
-                  return  this.setState({ arraySearch: [...arraySearch, ...searchInfo.hits], status: 'resolved'})
-                }
-                if (searchInfo.hits.length !== 0 && searchInfo.hits.length < 12) {
-                  return  this.setState({ arraySearch: [...arraySearch, ...searchInfo.hits], status: 'finish'})
-                }
-                this.setState({ status: 'rejected' })
-                return Promise.reject(
-                  new Error("Sory, no result!")
-                )
-              })
-              .catch((error) => {
-                this.setState({error, status: 'rejected' })
-              })
+      this.setState({ status: 'pending'})
+      fetch(`https://pixabay.com/api/?q=${searchName}&page=${page}&key=31299915-b383d5b151d1dc364952a6f73&image_type=photo&orientation=horizontal&per_page=12`)
+        .then(response => response.json())
+        .then(searchInfo => {
+          if (searchInfo.hits.length !== 0) {
+            if (searchInfo.totalHits - 12 * page > 0) {
+              this.setState({ openButtonLoadMore: true})
+            } else {
+              this.setState({ openButtonLoadMore: false })
+            }
+            return  this.setState(prevState => ({ arraySearch: [...prevState.arraySearch, ...searchInfo.hits], status: 'resolved'}))
+          }
+          this.setState({ status: 'rejected' })
+          return Promise.reject(
+            new Error("Sory, no result!")
+          )
+        })
+        .catch((error) => {
+          this.setState({error, status: 'rejected' })
+        })
     }
   }
 
   render() {
-    const { arraySearch, status, error, openModal, arrayModal } = this.state
+    const { arraySearch, status, error, openModal, arrayModal, openButtonLoadMore } = this.state
 
     if (status === 'idle') {
       return <>
@@ -80,12 +79,21 @@ class App extends Component {
         <ToastContainer autoClose={3000} />
       </>
     }
-
-    if (status === 'finish') {
+    
+    if (status === 'pending') {
       return <>
         <Searchbar onSubmit={this.handlFormSubmit} />
         <ImageGallery choseItem={this.choseItem} listSearch={arraySearch} />
-        {openModal&&<Modal img={arrayModal[0]} onClose={this.onClose} />}
+        <Loader />
+      </>
+    }
+
+    if (status === 'resolved') {
+      return <>
+        <Searchbar onSubmit={this.handlFormSubmit} />
+        <ImageGallery choseItem={this.choseItem} listSearch={arraySearch} />
+        {openButtonLoadMore && <Button loadMore={this.loadMore} />}
+        {openModal && <Modal largeImageURL={arrayModal[0].largeImageURL} tags={arrayModal[0].tags} onClose={this.onClose} />}
         <ToastContainer autoClose={3000} />
       </>
     }
@@ -96,31 +104,6 @@ class App extends Component {
         {!arraySearch.length && <h1 className='Error'>{error.message}</h1>}
         {arraySearch.length && <ImageGallery choseItem={this.choseItem} listSearch={arraySearch} />}
         <ToastContainer autoClose={3000} />
-      </>
-    }
-    
-    if (status === 'pending') {
-      return <>
-        <Searchbar onSubmit={this.handlFormSubmit} />
-        <Loader />
-      </>
-    }
-
-    if (status === 'resolved') {
-      return <>
-        <Searchbar onSubmit={this.handlFormSubmit} />
-        <ImageGallery choseItem={this.choseItem} listSearch={arraySearch} />
-        <Button loadMore={this.loadMore} />
-        {openModal && <Modal img={arrayModal[0]} onClose={this.onClose} />}
-        <ToastContainer autoClose={3000} />
-      </>
-    }
-    
-    if (status === 'pending-more') {
-      return <>
-        <Searchbar onSubmit={this.handlFormSubmit} />
-        <ImageGallery choseItem={this.choseItem} listSearch={arraySearch} />
-        <Loader />
       </>
     }
   }

@@ -2,6 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 class Modal extends Component {
+    static propTypes =
+        {
+            largeImageURL: PropTypes.string.isRequired,
+            tags: PropTypes.string.isRequired,
+            onClose: PropTypes.func.isRequired,
+        }
 
     componentDidMount() {
         window.addEventListener('keydown', this.handlKeyDown)
@@ -26,15 +32,10 @@ class Modal extends Component {
     render() {
         return  <div className="Overlay" onClick={this.handlOverlayClick}>
             <div className="Modal">
-                <img src={this.props.img.largeImageURL} alt={this.props.img.tags} />
+                <img src={this.props.largeImageURL} alt={this.props.tags} />
             </div>
         </div>
     }
-}
-
-Modal.propTypes = {
-    img: PropTypes.object.isRequired,
-    onClose: PropTypes.func.isRequired,
 }
 
 export default Modal;
